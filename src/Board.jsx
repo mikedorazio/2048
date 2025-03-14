@@ -38,22 +38,22 @@ export default function Board() {
         dataGrid[row][column] = randomNumber2;
 
         // test data
-        dataGrid[0][0] = 2;
-        dataGrid[0][1] = 0;
-        dataGrid[0][2] = 4;
-        dataGrid[0][3] = 0;
-        dataGrid[1][0] = 8;
-        dataGrid[1][1] = 64;
-        dataGrid[1][2] = 2;
-        dataGrid[1][3] = 4;
-        dataGrid[2][0] = 128;
-        dataGrid[2][1] = 8;
-        dataGrid[2][2] = 16;
-        dataGrid[2][3] = 16;
-        dataGrid[3][0] = 64;
-        dataGrid[3][1] = 32;
-        dataGrid[3][2] = 2;
-        dataGrid[3][3] = 2;
+        // dataGrid[0][0] = 2;
+        // dataGrid[0][1] = 0;
+        // dataGrid[0][2] = 4;
+        // dataGrid[0][3] = 0;
+        // dataGrid[1][0] = 8;
+        // dataGrid[1][1] = 64;
+        // dataGrid[1][2] = 2;
+        // dataGrid[1][3] = 4;
+        // dataGrid[2][0] = 128;
+        // dataGrid[2][1] = 8;
+        // dataGrid[2][2] = 16;
+        // dataGrid[2][3] = 16;
+        // dataGrid[3][0] = 64;
+        // dataGrid[3][1] = 32;
+        // dataGrid[3][2] = 2;
+        // dataGrid[3][3] = 2;
 
         return dataGrid;
     }

@@ -11,7 +11,7 @@ export default function Scoreboard({ score, isGameOver }) {
                 </div>
                 <div className="high-score-container">
                     <div className="score-label">best</div>
-                    <div className="high-score">12342</div>
+                    <div className="high-score">0</div>
                 </div>
             </div>
         </>
