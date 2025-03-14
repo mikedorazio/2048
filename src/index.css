@@ -1,0 +1,164 @@
+:root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color-scheme: light dark;
+    --cell-width: 85px;
+    --cell-gap: 10px;
+    --grid-size: 4;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+    background-color: #faf8ef;
+    justify-content: center;
+}
+
+.app-container {
+    width: 400px;
+    height: 500px;
+    font-size: 3.2em;
+    line-height: 1.1;
+   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-container {
+    background-color: #bbada0;
+    border: 9px solid #bbada0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: var(--cell-gap);
+    column-gap: var(--cell-gap);
+    justify-content: center;
+    border-radius: 5px;
+}
+
+.cell-container {
+    width: var(--cell-width);
+    height: var(--cell-width);
+    background-color: beige;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 40px;
+    font-weight: bold;
+    border-radius: 7px;
+}
+
+.scoreboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    padding-bottom: 15px;
+}
+.score-header {
+    font-size: 48px;
+    font-weight: 700;
+}
+.score-container {
+    display: flex;
+    align-self: flex-end;
+    width: 100%;
+}
+.current-score-container,
+.high-score-container {
+    width: 100px;
+    height: 60px;
+    background-color: #bbada0;
+    margin-right: 5px;
+    border-radius: 5px;
+}
+
+.score-label {
+    font-size: 20px;
+    justify-self: center;
+    color: #eee4da
+}
+.current-score,
+.high-score {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    justify-self: center;
+}
+
+.cell-container.zoom {
+    animation: zoom 0.5s ease forwards;
+}
+
+.cell {
+    justify-self: center;
+    align-items: center;
+}
+.n0 {
+    background-color: rgba(238, 228, 218, 0.35);
+    color: #727371;
+}
+.n2 {
+    background-color: #eee4da;
+    color: #727371
+}
+.n4 {
+    background-color: #ece0ca;
+    color: #727371;
+}
+.n8 {
+    background-color: #f4b17a;
+    color: white;
+}
+.n16 {
+    background-color: #f59575;
+    color: white;
+}
+.n32 {
+    background-color: #f57c5f;
+    color: white;
+}
+.n64 {
+    background-color: #f65d3b;
+    color: white;
+}
+.n128 {
+    background-color: #edce71;
+    color: white;
+}
+.n256 {
+    background-color: #edcc63;
+    color: white;
+}
+.n512 {
+    background-color: #edc651;
+    color: white;
+}
+.n1024 {
+    background-color: #eec744;
+    color: white;
+}
+.n2048 {
+    background-color: #ecc230;
+    color: white;
+}
+.n4096 {
+    background-color: #fe3d3d;
+    color: white;
+}
+
+@keyframes zoom {
+    0% {
+        transform: scale(1.0);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1.0);
+    }
+}
