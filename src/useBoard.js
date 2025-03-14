@@ -6,35 +6,41 @@ export default function useBoard( board, setBoard, rows, columns, score, setScor
         return row.filter(num => num != 0);
     }
 
-    function slide(row) {
+    // slide cells to the left. this will be called with all directions since we will first rearrange the cells in the position that will
+    // simulate them being shifted left, then after, we will reposition them back the way they should appear in the grid.
+    // pretend we came in with this as the row: 2, 2, 0, 4
+    function slide(row, direction) {
         //console.log("slide.called with row", row, row.length);
-        // clear out zero values
+        // clear out zero values. now the row will look like: 2, 2, 4
         row = filterZeros(row);
 
         // merge cells with the one on the left if it is the same value
         for (let i = 0; i < row.length - 1; i++) {
             console.log("slide.values about to check", row[i], row[i+1])
+            // combine the 2 cells that are of the same value
             if (row[i] == row[i+1]) {
-                //console.log("slide.values found to be equal", row[i], row[i+1])
+                console.log("slide.values found to be equal", i, i+1)
                 row[i] *= 2;
                 row[i+1] = 0;
                 deltaScore = deltaScore + row[i];
             }
         }
-        // clear out zero values again
+        // now the row will look like: 4, 0, 4
+        // clear out zero values again. now it will look like 4, 4
         row = filterZeros(row);
-        // put zero values back
+        // put zero values back. now it will be: 4, 4, 0, 0
         while(row.length < columns) {
             row.push(0);
         }
         return row;
     }
 
+    // call the slide() method for each row.
     function slideLeft() {
         for (let r = 0; r < rows; r++) {
             //console.log("slideLeft.processing row", tempBoard[r])
             let row = tempBoard[r];
-            row = slide(row);
+            row = slide(row, "l");
             tempBoard[r] = row;
         }
     }
@@ -46,7 +52,7 @@ export default function useBoard( board, setBoard, rows, columns, score, setScor
             //console.log("slideLeft.processing row", tempBoard[r])
             let row = tempBoard[r];
             row.reverse();
-            row = slide(row);
+            row = slide(row, "r");
             row.reverse();
             tempBoard[r] = row;
         }
@@ -55,7 +61,7 @@ export default function useBoard( board, setBoard, rows, columns, score, setScor
     function slideUp() {
         for (let c = 0; c < columns; c++) {
             let row = [tempBoard[0][c], tempBoard[1][c], tempBoard[2][c], tempBoard[3][c]];
-            row = slide(row);
+            row = slide(row, "u");
             tempBoard[0][c] = row[0];
             tempBoard[1][c] = row[1];
             tempBoard[2][c] = row[2];
@@ -67,7 +73,7 @@ export default function useBoard( board, setBoard, rows, columns, score, setScor
         for (let c = 0; c < columns; c++) {
             let row = [tempBoard[0][c], tempBoard[1][c], tempBoard[2][c], tempBoard[3][c]];
             row = row.reverse();
-            row = slide(row);
+            row = slide(row, "d");
             row = row.reverse();
             tempBoard[0][c] = row[0];
             tempBoard[1][c] = row[1];
@@ -142,10 +148,60 @@ export default function useBoard( board, setBoard, rows, columns, score, setScor
         tempBoard[row][column] = randomNumber;
     }
 
+     // use FLIP technique to exchange hint positions
+     function swapEntries(fromElement, toElement, containerElement) {
+        const nextSibling = fromElement.nextSibling;
+        // FIRST: get the current bounds
+        const fromRect = fromElement.getBoundingClientRect();
+        const toRect = toElement.getBoundingClientRect();
+        // Last
+        containerElement.insertBefore(fromElement, toElement);
+        containerElement.insertBefore(toElement, nextSibling);
+        const fromRectLast = fromElement.getBoundingClientRect();
+        const toRectLast = toElement.getBoundingClientRect();
+        // Invert 
+        const fromDeltaX = fromRect.left - fromRectLast.left;
+        const fromDeltaY = fromRect.top - fromRectLast.top;
+        //console.log("creamDeltaX", creamDeltaX, "creamDeltaY", creamDeltaY);
+        const toDeltaX = toRect.left - toRectLast.left;
+        const toDeltaY = toRect.top - toRectLast.top;
+
+        fromElement.animate([{
+            transformOrigin: 'top left',
+            transform: `
+              translate(${fromDeltaX}px, ${fromDeltaY}px)
+            `
+          }, {
+            transformOrigin: 'top left',
+            transform: 'none'
+          }], {
+            duration: 300,
+            easing: 'ease-in-out',
+            fill: 'both'
+          });
+
+          toElement.animate([{
+            transformOrigin: 'top left',
+            transform: `
+              translate(${toDeltaX}px, ${toDeltaY}px)
+            `
+          }, {
+            transformOrigin: 'top left',
+            transform: 'none'
+          }], {
+            duration: 300,
+            easing: 'ease-in-out',
+            fill: 'both'
+          });
+    }
+
+    // handles the event of a key being hit. ignore all keys hit unless it is an arrow key.  move the cells in the direction related to 
+    // which arrow key was hit. 
     function handleKeyup(event) {
         console.log("handleKeyup.event", event);
         tempBoard = JSON.parse(JSON.stringify(board));
 
+        // first check to see if the last time we insterted a random number ended the game
         let gameOver = isGameOver();
         if (gameOver) {
             setIsGameOver(true);
@@ -153,6 +209,7 @@ export default function useBoard( board, setBoard, rows, columns, score, setScor
             return;
         }
 
+        // get the exact key that was hit and call the appropriate slide method
         switch(event.key) {
             case 'ArrowUp':
                 console.log("ArrowUp");
@@ -173,11 +230,11 @@ export default function useBoard( board, setBoard, rows, columns, score, setScor
             default:
                 console.log("ignore");
         }
-        // the board has now been updated to handle the direction the user selected.  we can check to be sure the game is still valid
-        // and if it is, we can add a new random value in one of the blank entries.
-       
+        
+        // if the key that was hit caused a cell to become available, fill it with a new random entry
         addRandomEntry();
 
+        // the board has now been updated to handle the direction the user selected.  we can check to be sure the game is still valid
         gameOver = isGameOver();
         if (gameOver) {
             setIsGameOver(true);

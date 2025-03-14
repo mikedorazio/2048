@@ -141,14 +141,27 @@ body {
 .n1024 {
     background-color: #eec744;
     color: white;
+    font-size: 34px;
 }
 .n2048 {
     background-color: #ecc230;
     color: white;
+    font-size: 34px;
 }
 .n4096 {
-    background-color: #fe3d3d;
+    background-color: black;
     color: white;
+    font-size: 34px;
+}
+.n8192 {
+    background-color: black;
+    color: white;
+    font-size: 34px;
+}
+.n16384 {
+    background-color: black;
+    color: white;
+    font-size: 28px;
 }
 
 @keyframes zoom {

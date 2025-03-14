@@ -52,8 +52,8 @@ export default function Board() {
         // dataGrid[2][3] = 16;
         // dataGrid[3][0] = 64;
         // dataGrid[3][1] = 32;
-        // dataGrid[3][2] = 2;
-        // dataGrid[3][3] = 2;
+        // dataGrid[3][2] = 2048;
+        // dataGrid[3][3] = 4096;
 
         return dataGrid;
     }
