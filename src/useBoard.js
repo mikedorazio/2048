@@ -1,6 +1,7 @@
 export default function useBoard( board, setBoard, rows, columns, score, setScore, setIsGameOver ) {
     let tempBoard = [];
     let deltaScore = 0;
+    let backupBoard = [];
 
     function filterZeros(row) {
         return row.filter(num => num != 0);
@@ -195,11 +196,26 @@ export default function useBoard( board, setBoard, rows, columns, score, setScor
           });
     }
 
+    // check to see if the original board and the new resulting board that got created when the 
+    // user hit an arrow key are the same exact board. if so, we will not add a new entry
+    function areBoardsSimilar() {
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < columns; c++) {
+                if (tempBoard[r][c] != backupBoard[r][c]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     // handles the event of a key being hit. ignore all keys hit unless it is an arrow key.  move the cells in the direction related to 
     // which arrow key was hit. 
     function handleKeyup(event) {
         console.log("handleKeyup.event", event);
         tempBoard = JSON.parse(JSON.stringify(board));
+        // keep backup copy so we can compare it with new copy to see if anything changed.
+        backupBoard = JSON.parse(JSON.stringify(board));
 
         // first check to see if the last time we insterted a random number ended the game
         let gameOver = isGameOver();
@@ -232,7 +248,14 @@ export default function useBoard( board, setBoard, rows, columns, score, setScor
         }
         
         // if the key that was hit caused a cell to become available, fill it with a new random entry
-        addRandomEntry();
+        let boardsAreSimilar = areBoardsSimilar();
+        if (boardsAreSimilar == true) {
+            console.log("handleKeyup.nothing changed...not adding new entry")
+        }
+        else {
+            console.log("handleKeyup.something changed...adding new entry")
+            addRandomEntry();
+        }
 
         // the board has now been updated to handle the direction the user selected.  we can check to be sure the game is still valid
         gameOver = isGameOver();
