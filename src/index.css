@@ -107,44 +107,44 @@ body {
     color: #727371
 }
 .n4 {
-    background-color: #ece0ca;
+    background-color: #ede0ca;
     color: #727371;
 }
 .n8 {
-    background-color: #f4b17a;
+    background-color: #f2b179;
     color: white;
 }
 .n16 {
-    background-color: #f59575;
+    background-color: #f59563;
     color: white;
 }
 .n32 {
-    background-color: #f57c5f;
+    background-color: #f67c5f;
     color: white;
 }
 .n64 {
-    background-color: #f65d3b;
+    background-color: #f65e3b;
     color: white;
 }
 .n128 {
-    background-color: #edce71;
+    background-color: #edcf72;
     color: white;
 }
 .n256 {
-    background-color: #edcc63;
+    background-color: #edcc61;
     color: white;
 }
 .n512 {
-    background-color: #edc651;
+    background-color: #edc850;
     color: white;
 }
 .n1024 {
-    background-color: #eec744;
+    background-color: #edc53f;
     color: white;
     font-size: 34px;
 }
 .n2048 {
-    background-color: #ecc230;
+    background-color: #edc22e;
     color: white;
     font-size: 34px;
 }
