@@ -9,6 +9,10 @@ export default function Board() {
     const [board, setBoard] = useState(initBoard);
     const [score, setScore] = useState(0);
     const [isGameOver, setIsGameOver] = useState(false);
+    const [recordScore, setRecordScore] = useState(() => {
+        const storedRecord = localStorage.getItem('recordHigh-2048');
+        return storedRecord ? parseInt(storedRecord) : 0;
+    });
     const { handleKeyup } = useBoard(board, setBoard, rows, columns, score, setScore, setIsGameOver);
 
     function initBoard() {
@@ -62,6 +66,10 @@ export default function Board() {
         window.addEventListener("keyup", handleKeyup);
 
         if (isGameOver) {
+            if (score > recordScore) {
+                console.log("NEW LOW SCORE");
+                localStorage.setItem('recordHigh-2048', score.toString());
+            }
             console.log("game over in useEffect");
             window.removeEventListener("keyup", handleKeyup);
         }
@@ -73,7 +81,7 @@ export default function Board() {
     return (
         <>
             <div className="scoreboard">
-                <Scoreboard score={score} isGameOver={isGameOver} />
+                <Scoreboard score={score} recordScore={recordScore} isGameOver={isGameOver} />
             </div>
             <div className="board-container">
                 <Grid board={board} />

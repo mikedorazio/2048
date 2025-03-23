@@ -1,4 +1,4 @@
-export default function Scoreboard({ score, isGameOver }) {
+export default function Scoreboard({ score, recordScore, isGameOver }) {
     return (
         <>
             {isGameOver ? <div>Game Over</div> : null}
@@ -11,7 +11,7 @@ export default function Scoreboard({ score, isGameOver }) {
                 </div>
                 <div className="high-score-container">
                     <div className="score-label">best</div>
-                    <div className="high-score">0</div>
+                    <div className="high-score">{recordScore}</div>
                 </div>
             </div>
         </>
