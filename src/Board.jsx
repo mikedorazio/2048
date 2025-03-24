@@ -2,6 +2,7 @@ import Grid from "./Grid";
 import { useState, useEffect } from "react";
 import useBoard from "./useBoard";
 import Scoreboard from "./Scoreboard";
+import ReactConfetti from "react-confetti";
 
 export default function Board() {
     const rows = 4;
@@ -78,8 +79,12 @@ export default function Board() {
         };
     }, [handleKeyup]);
 
+    let recordGameOver = isGameOver && score > recordScore;
+
     return (
         <>
+            {recordGameOver && <ReactConfetti />}
+
             <div className="scoreboard">
                 <Scoreboard score={score} recordScore={recordScore} isGameOver={isGameOver} />
             </div>
